@@ -86,7 +86,7 @@
         <!-- Registration Form -->
         <div id="registerForm" style="display:none;">
             <h2>Register</h2>
-            <form onsubmit="event.preventDefault(); register();">
+            <form id="registrationForm" onsubmit="event.preventDefault(); register();">
             <div class="form-group">
                 <label for="registerUsername">Username:</label>
                 <input type="text" class="form-control" id="registerUsername" required>
@@ -95,7 +95,7 @@
                 <label for="registerPassword">Password:</label>
                 <input type="password" class="form-control" id="registerPassword" required>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-success">Register</button>
             <button type="button" class="btn btn-link" onclick="showLoginForm()">Already have an account? Login</button>
             </form>
         </div>

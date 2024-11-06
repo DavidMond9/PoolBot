@@ -140,3 +140,16 @@ footer {
     text-align: center;
     margin-top: 20px;
   }
+
+  /* Custom style for the Register button */
+.btn-register {
+    background-color: #28a745; /* Bootstrap's success color */
+    border-color: #28a745;
+    color: #fff;
+  }
+  
+  .btn-register:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+  }
+  
