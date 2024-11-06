@@ -72,3 +72,29 @@ function logout() {
   document.getElementById('navLogout').style.display = 'none';
   showHome();
 }
+
+function register() {
+    const username = document.getElementById('registerUsername').value.trim();
+    const password = document.getElementById('registerPassword').value;
+  
+    fetch('/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, password }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.message === 'User registered successfully.') {
+          alert('Registration successful! Please log in.');
+          showLoginForm();
+        } else {
+          alert(data.message || 'Registration failed');
+        }
+      })
+      .catch(err => {
+        console.error('Error registering:', err);
+        alert('An error occurred during registration.');
+      });
+  }
