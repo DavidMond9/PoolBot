@@ -13,71 +13,12 @@
     />
 
     <!-- Custom CSS -->
-    <style>
-        body {
-            padding-top: 56px; /* Space for the navbar */
-            background-color: #f0f2f5;
-        }
-
-        .container {
-            max-width: 600px;
-            margin-top: 20px;
-        }
-
-        .admin-controls {
-            margin-top: 30px;
-            display: none;
-        }
-
-        #errorMessage {
-            display: none;
-        }
-
-        /* Custom styles for forms */
-        .form-container {
-            margin-top: 30px;
-        }
-
-        .nav-link {
-            cursor: pointer;
-        }
-
-        /* Autocomplete styles */
-        .autocomplete-items {
-          position: relative;
-          border: 1px solid #d4d4d4;
-          border-bottom: none;
-          border-top: none;
-          z-index: 99;
-          /* position the autocomplete items to be the same width as the container: */
-          top: 100%;
-          left: 0;
-          right: 0;
-        }
-
-        .autocomplete-items div {
-          padding: 10px;
-          cursor: pointer;
-          background-color: #fff; 
-          border-bottom: 1px solid #d4d4d4; 
-        }
-
-        .autocomplete-items div:hover {
-          /* when hovering an item: */
-          background-color: #e9e9e9; 
-        }
-
-        .autocomplete-active {
-          /* when navigating through the items using the arrow keys: */
-          background-color: DodgerBlue !important; 
-          color: #ffffff; 
-        }
-    </style>
+    <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-      <a class="navbar-brand" href="#">Pool Table Queue</a>
+      <a class="navbar-brand" href="#" onclick="showHome()">Pool Table Queue</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -91,13 +32,16 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
+          <li class="nav-item" id="navHome">
             <a class="nav-link" onclick="showHome()">Home</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" id="navQueue">
             <a class="nav-link" onclick="showQueueInterface()">Queue</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" id="navTournaments">
+            <a class="nav-link" onclick="showTournaments()">Tournaments</a>
+          </li>
+          <li class="nav-item" id="navProfile">
             <a class="nav-link" onclick="showProfile()">Profile</a>
           </li>
           <li class="nav-item" id="navLogin">
@@ -114,82 +58,143 @@
     <div class="container">
         <!-- Home Section -->
         <div id="homeSection">
-            <h1 class="text-center">Welcome to the Pool Table Queue System</h1>
-            <p class="text-center">
-                baby k the goat
-            </p>
+            <div class="jumbotron text-center">
+            <h1>Welcome to the Pool Table Queue System</h1>
+            <p>Join the queue and enjoy your game!</p>
+            <button class="btn btn-primary btn-lg" onclick="showQueueInterface()">Join Queue</button>
+            </div>
         </div>
+  
 
         <!-- Login Form -->
         <div id="loginForm" style="display:none;">
             <h2>Login</h2>
-            <div class="form-container">
-                <div class="form-group">
-                    <input type="text" id="loginUsername" class="form-control" placeholder="Username">
-                </div>
-                <div class="form-group">
-                    <input type="password" id="loginPassword" class="form-control" placeholder="Password">
-                </div>
-                <button class="btn btn-primary btn-block" onclick="login()">Login</button>
-                <p class="mt-3">
-                    Don't have an account? <a onclick="showRegisterForm()">Register here</a>
-                </p>
-                <p id="loginErrorMessage" class="text-danger"></p>
+            <form onsubmit="event.preventDefault(); login();">
+            <div class="form-group">
+                <label for="loginUsername">Username:</label>
+                <input type="text" class="form-control" id="loginUsername" required>
             </div>
+            <div class="form-group">
+                <label for="loginPassword">Password:</label>
+                <input type="password" class="form-control" id="loginPassword" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="button" class="btn btn-link" onclick="showRegisterForm()">Don't have an account? Register</button>
+            </form>
         </div>
 
         <!-- Registration Form -->
         <div id="registerForm" style="display:none;">
             <h2>Register</h2>
-            <div class="form-container">
-                <div class="form-group">
-                    <input type="text" id="registerUsername" class="form-control" placeholder="Username">
-                </div>
-                <div class="form-group">
-                    <input type="password" id="registerPassword" class="form-control" placeholder="Password">
-                </div>
-                <button class="btn btn-success btn-block" onclick="register()">Register</button>
-                <p class="mt-3">
-                    Already have an account? <a onclick="showLoginForm()">Login here</a>
-                </p>
-                <p id="registerErrorMessage" class="text-danger"></p>
+            <form onsubmit="event.preventDefault(); register();">
+            <div class="form-group">
+                <label for="registerUsername">Username:</label>
+                <input type="text" class="form-control" id="registerUsername" required>
             </div>
+            <div class="form-group">
+                <label for="registerPassword">Password:</label>
+                <input type="password" class="form-control" id="registerPassword" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="button" class="btn btn-link" onclick="showLoginForm()">Already have an account? Login</button>
+            </form>
         </div>
 
         <!-- Queue Interface -->
-        <div id="queueInterface" style="display:none;">
-            <h2>Current Queue</h2>
-            <!-- Display queue with numbers -->
-            <ol id="queueList" class="list-group mb-4"></ol>
+<div id="queueInterface" style="display:none;">
+    <h2>Current Queue</h2>
+    <ul id="queueList" class="list-group mb-3">
+      <!-- Queue items will be dynamically inserted here -->
+    </ul>
+    <p id="userMessage" style="display:none;"></p>
+    <button id="addButton" class="btn btn-success" onclick="addToQueue()">Join Queue</button>
+    <button id="leaveButton" class="btn btn-danger" onclick="removeFromQueue()" style="display:none;">Leave Queue</button>
+  
+    <!-- Admin Controls -->
+    <div class="admin-controls" style="display:none;">
+      <h3>Admin Controls</h3>
+      <button class="btn btn-warning" onclick="removeTopPlayer()">Remove Top Player</button>
+      <button class="btn btn-danger" onclick="clearQueue()">Clear Queue</button>
+      <button class="btn btn-secondary" onclick="removeSpecificUser()">Remove Specific User</button>
+      <h4>Add Player at Specific Position</h4>
+      <div class="form-group">
+        <input type="text" id="searchPlayer" class="form-control" placeholder="Search Player">
+      </div>
+      <div class="form-group">
+        <input type="number" id="positionInput" class="form-control" placeholder="Position">
+      </div>
+      <button class="btn btn-primary" onclick="addPlayerAtPosition()">Add Player</button>
+    </div>
+  </div>
 
-            <!-- Queue management controls -->
-            <p id="userMessage" class="alert alert-success" style="display: none;"></p>
-            <button id="addButton" class="btn btn-primary btn-block mb-2" onclick="addToQueue()">Add to Queue</button>
-            
-            <!-- Admin Controls -->
-            <div class="admin-controls">
-                <h4>Admin Controls</h4>
-                <button id="nextPlayerButton" class="btn btn-info btn-block mb-2" onclick="removeTopPlayer()">Next Player</button>
-                <button id="removeButton" class="btn btn-danger btn-block mb-2" onclick="removeSpecificUser()">Remove Specific User</button>
-                <button class="btn btn-danger btn-block mb-2" onclick="clearQueue()">Clear Queue</button>
+        <!-- Tournaments Section -->
+        <div id="tournamentsSection" style="display:none;">
+          <h2>Tournaments</h2>
 
-                <div class="form-group">
-                    <input type="text" id="searchPlayer" class="form-control" placeholder="Search and select player">
-                </div>
-                <div class="form-group">
-                    <input type="number" id="positionInput" class="form-control" placeholder="Position">
-                </div>
-                <button class="btn btn-secondary btn-block mb-2" onclick="addPlayerAtPosition()">Add Player at Position</button>
+          <!-- Admin Controls -->
+          <div id="tournamentAdminControls" style="display:none;" class="mb-4">
+            <h4>Admin Controls</h4>
+            <button class="btn btn-success mb-2" onclick="showCreateTournamentForm()">Create New Tournament</button>
+          </div>
+
+          <!-- Create Tournament Form -->
+          <div id="createTournamentForm" style="display:none;" class="mb-4">
+            <h4>Create Tournament</h4>
+            <div class="form-group">
+              <input type="text" id="tournamentName" class="form-control" placeholder="Tournament Name">
             </div>
+            <div class="form-group">
+              <textarea id="tournamentDescription" class="form-control" placeholder="Description"></textarea>
+            </div>
+            <div class="form-group">
+              <input type="date" id="tournamentDate" class="form-control">
+            </div>
+            <button class="btn btn-primary" onclick="createTournament()">Create</button>
+            <button class="btn btn-secondary" onclick="hideCreateTournamentForm()">Cancel</button>
+          </div>
+          <!-- Edit Tournament Form -->
+        <div id="editTournamentForm" style="display:none;" class="mb-4">
+            <h4>Edit Tournament</h4>
+            <div class="form-group">
+            <input type="text" id="editTournamentName" class="form-control" placeholder="Tournament Name">
+            </div>
+            <div class="form-group">
+            <textarea id="editTournamentDescription" class="form-control" placeholder="Description"></textarea>
+            </div>
+            <div class="form-group">
+            <input type="date" id="editTournamentDate" class="form-control">
+            </div>
+            <button class="btn btn-primary" onclick="updateTournament()">Update</button>
+            <button class="btn btn-secondary" onclick="hideEditTournamentForm()">Cancel</button>
+        </div>
+  
+
+          <!-- Loading Indicator -->
+          <div id="tournamentsLoading" style="display:none;">
+            <p>Loading tournaments...</p>
+          </div>
+
+          <div id="tournamentsList" class="mt-4">
+            <!-- Tournaments will be dynamically inserted here -->
+          </div>
         </div>
 
         <!-- Profile Section -->
         <div id="profileSection" style="display:none;">
-            <h2>Your Profile</h2>
-            <p>Username: <span id="profileUsername"></span></p>
-            <!-- Additional profile information can be added here -->
+          <h2>Your Profile</h2>
+          <p>Username: <span id="profileUsername"></span></p>
+
+          <h3>Your Tournaments</h3>
+          <div id="userTournamentsList" class="mt-3">
+            <!-- User's tournaments will be dynamically inserted here -->
+          </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+      &copy; 2023 Pool Table Queue System. All rights reserved.
+    </footer>
 
     <!-- Bootstrap JS and Dependencies -->
     <script
@@ -205,412 +210,17 @@
       crossorigin="anonymous"
     ></script>
 
-    <!-- Client-Side Script -->
-    <script>
-        let isAdmin = false;
-        let userAdded = false;
-        let token = '';
+    <!-- Font Awesome CDN for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
-        function showSection(sectionId) {
-            const sections = ['homeSection', 'loginForm', 'registerForm', 'queueInterface', 'profileSection'];
-            sections.forEach(id => {
-                document.getElementById(id).style.display = id === sectionId ? 'block' : 'none';
-            });
-        }
+    <!-- Socket.IO Client Library -->
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
 
-        function showHome() {
-            showSection('homeSection');
-        }
-
-        function showLoginForm() {
-            showSection('loginForm');
-            document.getElementById('navLogin').style.display = 'block';
-            document.getElementById('navLogout').style.display = 'none';
-        }
-
-        function showRegisterForm() {
-            showSection('registerForm');
-        }
-
-        function showQueueInterface() {
-            if (isAuthenticated()) {
-                showSection('queueInterface');
-                document.getElementById('navLogin').style.display = 'none';
-                document.getElementById('navLogout').style.display = 'block';
-                fetchQueue(); // Fetch and display the queue
-            } else {
-                alert('Please log in to access the queue.');
-                showLoginForm();
-            }
-        }
-
-        function showProfile() {
-            showSection('profileSection');
-            document.getElementById('profileUsername').innerText = getUserInfoFromToken().username;
-        }
-
-        function register() {
-            const username = document.getElementById('registerUsername').value;
-            const password = document.getElementById('registerPassword').value;
-
-            fetch('/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message === 'User registered successfully.') {
-                    alert('Registration successful! Please login.');
-                    showLoginForm();
-                } else {
-                    document.getElementById('registerErrorMessage').innerText = data.message || 'Error registering user.';
-                }
-            })
-            .catch(error => console.error(error));
-        }
-
-        function login() {
-            const username = document.getElementById('loginUsername').value;
-            const password = document.getElementById('loginPassword').value;
-
-            fetch('/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.token) {
-                    // Store token and show the queue interface
-                    token = data.token;
-                    localStorage.setItem('token', token);
-
-                    const userInfo = getUserInfoFromToken();
-                    isAdmin = userInfo.isAdmin;
-
-                    // Update UI
-                    document.getElementById('navLogin').style.display = 'none';
-                    document.getElementById('navLogout').style.display = 'block';
-                    showQueueInterface();  // Shows the queue interface after login
-                } else {
-                    // Display an error message if login fails
-                    document.getElementById('loginErrorMessage').innerText = data.message || 'Error logging in.';
-                }
-            })
-            .catch(error => {
-                console.error('Login error:', error);
-                document.getElementById('loginErrorMessage').innerText = 'An unexpected error occurred.';
-            });
-        }
-
-        function logout() {
-            token = '';
-            localStorage.removeItem('token');
-            isAdmin = false;
-            document.getElementById('navLogin').style.display = 'block';
-            document.getElementById('navLogout').style.display = 'none';
-            showHome();
-        }
-
-        // Fetch the queue from the server
-        async function fetchQueue() {
-            const response = await fetch('/queue', {
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                },
-            });
-
-            if (response.status === 401 || response.status === 403) {
-                alert('Session expired. Please log in again.');
-                logout();
-                return;
-            }
-
-            const queue = await response.json();
-            console.log("Queue data:", queue);
-            const queueList = document.getElementById('queueList');
-            queueList.innerHTML = '';
-
-            queue.forEach((name, index) => {
-                const listItem = document.createElement('li');
-                listItem.className = 'list-group-item';
-                listItem.textContent = `${index + 1}. ${name}`;
-                queueList.appendChild(listItem);
-            });
-
-            // Check if the user's name is already in the queue
-            const username = getUserInfoFromToken().username;
-            if (queue.includes(username) && !isAdmin) {
-                disableButtons();
-                document.getElementById('userMessage').innerText = `You are in the queue at position ${queue.indexOf(username) + 1}.`;
-                document.getElementById('userMessage').style.display = 'block';
-            } else {
-                enableButtons();
-            }
-
-            // Display admin controls if user is admin
-            if (isAdmin) {
-                document.querySelector('.admin-controls').style.display = 'block';
-                fetchAllUsers(); // Fetch all users for autocomplete
-            } else {
-                document.querySelector('.admin-controls').style.display = 'none';
-            }
-        }
-
-        function disableButtons() {
-            document.getElementById('addButton').style.display = 'none';
-            userAdded = true;
-        }
-
-        function enableButtons() {
-            document.getElementById('addButton').style.display = 'block';
-            document.getElementById('userMessage').style.display = 'none';
-            userAdded = false;
-        }
-
-        // Add to queue function
-        async function addToQueue() {
-            try {
-                const response = await fetch('/add', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token,
-                    },
-                });
-
-                if (!response.ok) {
-                    // If the response status is not 200-299, handle it here
-                    const errorData = await response.json();
-                    if (response.status === 400) {
-                        // Specific handling for 400 status
-                        alert(errorData.message || 'You are already in the queue.');
-                        return;
-                    }
-                    // Generic handling for other errors
-                    throw new Error(errorData.message || 'Something went wrong');
-                }
-
-                // If the request was successful, refresh the queue and update the UI
-                fetchQueue();
-                if (!isAdmin) disableButtons();
-
-            } catch (error) {
-                console.error('Error adding to queue:', error);
-                alert(error.message);
-            }
-        }
-
-        async function removeSpecificUser() {
-            const username = prompt("Enter username to remove:");
-            const response = await fetch('/admin/remove', {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username }),
-            });
-            const data = await response.json();
-
-            if (!response.ok) {
-                alert(data.message || 'Failed to remove user');
-            } else {
-                alert(data.message);
-                fetchQueue(); // Refresh queue
-            }
-        }
-
-        async function clearQueue() {
-            const response = await fetch('/admin/clear', {
-                method: 'POST',
-                headers: {
-                'Authorization': 'Bearer ' + token,
-                'Content-Type': 'application/json',
-                },
-            });
-            const data = await response.json();
-
-            if (!response.ok) {
-                alert(data.message || 'Failed to clear queue');
-            } else {
-                alert(data.message);
-                fetchQueue(); // Refresh queue
-            }
-        }
-
-        async function removeTopPlayer() {
-            const response = await fetch('/admin/remove-top', {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Content-Type': 'application/json',
-                },
-            });
-            const data = await response.json();
-
-            if (!response.ok) {
-                alert(data.message || 'Failed to remove top player');
-            } else {
-                alert(data.message);
-                fetchQueue(); // Refresh the queue
-            }
-        }
-
-        async function addPlayerAtPosition() {
-            const username = document.getElementById('searchPlayer').value;
-            const position = parseInt(document.getElementById('positionInput').value, 10);
-
-            const response = await fetch('/admin/add-at-position', {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, position }),
-            });
-            const data = await response.json();
-
-            if (response.ok) {
-                alert(data.message);
-                fetchQueue(); // Refresh queue display
-            } else {
-                alert(data.message || 'Failed to add player at specified position');
-            }
-        }
-
-        // Function to get the user info from the token
-        function getUserInfoFromToken() {
-            if (token) {
-                const payload = JSON.parse(atob(token.split('.')[1]));
-                return { username: payload.username, isAdmin: payload.isAdmin || false };
-            }
-            return { username: null, isAdmin: false };
-        }
-
-        let allUsers = [];
-
-        async function fetchAllUsers() {
-            const response = await fetch('/admin/users', {
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                },
-            });
-            allUsers = await response.json();
-            setupAutocomplete(document.getElementById('searchPlayer'), allUsers);
-        }
-
-        function setupAutocomplete(input, arr) {
-            let currentFocus;
-
-            input.addEventListener("input", function() {
-                let val = this.value;
-                closeAllLists();
-                if (!val) { return false; }
-                currentFocus = -1;
-
-                const listContainer = document.createElement("div");
-                listContainer.setAttribute("id", this.id + "autocomplete-list");
-                listContainer.setAttribute("class", "autocomplete-items");
-                this.parentNode.appendChild(listContainer);
-
-                arr.forEach(user => {
-                    if (user.substr(0, val.length).toUpperCase() === val.toUpperCase()) {
-                        const item = document.createElement("div");
-                        item.innerHTML = "<strong>" + user.substr(0, val.length) + "</strong>";
-                        item.innerHTML += user.substr(val.length);
-                        item.innerHTML += "<input type='hidden' value='" + user + "'>";
-                        item.addEventListener("click", function() {
-                            input.value = this.getElementsByTagName("input")[0].value;
-                            closeAllLists();
-                        });
-                        listContainer.appendChild(item);
-                    }
-                });
-            });
-
-            input.addEventListener("keydown", function(e) {
-                let items = document.getElementById(this.id + "autocomplete-list");
-                if (items) items = items.getElementsByTagName("div");
-                if (e.keyCode === 40) {
-                    currentFocus++;
-                    addActive(items);
-                } else if (e.keyCode === 38) { 
-                    currentFocus--;
-                    addActive(items);
-                } else if (e.keyCode === 13) {
-                    e.preventDefault();
-                    if (currentFocus > -1) {
-                        if (items) items[currentFocus].click();
-                    }
-                }
-            });
-
-            function addActive(items) {
-                if (!items) return false;
-                removeActive(items);
-                if (currentFocus >= items.length) currentFocus = 0;
-                if (currentFocus < 0) currentFocus = items.length - 1;
-                items[currentFocus].classList.add("autocomplete-active");
-            }
-
-            function removeActive(items) {
-                for (const item of items) item.classList.remove("autocomplete-active");
-            }
-
-            function closeAllLists(element) {
-                const items = document.getElementsByClassName("autocomplete-items");
-                for (const item of items) {
-                    if (element != item && element != input) {
-                        item.parentNode.removeChild(item);
-                    }
-                }
-            }
-
-            document.addEventListener("click", function(e) {
-                closeAllLists(e.target);
-            });
-        }
-
-        // Check if the token exists and is valid
-        function isAuthenticated() {
-            if (!token) {
-                token = localStorage.getItem('token');
-            }
-            if (!token) return false;
-
-            try {
-                const payload = JSON.parse(atob(token.split('.')[1]));
-                const expiration = payload.exp * 1000;
-                if (Date.now() >= expiration) {
-                    // Token expired
-                    logout();
-                    return false;
-                }
-                return true;
-            } catch (e) {
-                return false;
-            }
-        }
-
-        // On page load, check if token exists
-        window.onload = function() {
-            if (isAuthenticated()) {
-                const userInfo = getUserInfoFromToken();
-                isAdmin = userInfo.isAdmin;
-                document.getElementById('navLogin').style.display = 'none';
-                document.getElementById('navLogout').style.display = 'block';
-
-                showQueueInterface();
-                // fetchQueue(); // fetchQueue() is called within showQueueInterface()
-            } else {
-                localStorage.removeItem('token');
-                document.getElementById('navLogin').style.display = 'block';
-                document.getElementById('navLogout').style.display = 'none';
-                showHome();
-            }
-        };
-    </script>
+    <!-- Custom JS Files -->
+    <script src="js/auth.js"></script>
+    <script src="js/queue.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/tournaments.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>

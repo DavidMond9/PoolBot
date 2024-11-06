@@ -1,0 +1,142 @@
+/* public/css/styles.css */
+
+body {
+    padding-top: 56px; /* Space for the navbar */
+    background-color: #f0f2f5;
+}
+
+.container {
+    max-width: 600px;
+    margin-top: 20px;
+}
+
+.admin-controls {
+    margin-top: 30px;
+    display: none;
+}
+
+#errorMessage {
+    display: none;
+}
+
+/* Custom styles for forms */
+.form-container {
+    margin-top: 30px;
+}
+
+.nav-link {
+    cursor: pointer;
+}
+
+/* Autocomplete styles */
+.autocomplete-items {
+  position: relative;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /* position the autocomplete items to be the same width as the container: */
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff; 
+  border-bottom: 1px solid #d4d4d4; 
+}
+
+.autocomplete-items div:hover {
+  /* when hovering an item: */
+  background-color: #e9e9e9; 
+}
+
+.autocomplete-active {
+  /* when navigating through the items using the arrow keys: */
+  background-color: DodgerBlue !important; 
+  color: #ffffff; 
+}
+
+/* Jumbotron Customization */
+.jumbotron {
+    background-image: url('https://example.com/pool-table.jpg'); /* Replace with a valid image URL */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.jumbotron::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.jumbotron h1, .jumbotron p {
+    position: relative;
+    z-index: 1;
+}
+
+.jumbotron .btn {
+    position: relative;
+    z-index: 1;
+}
+
+/* How It Works Icons */
+.fa-3x {
+    color: #007bff;
+}
+
+.row.text-center {
+    margin-top: 50px;
+}
+
+.row.text-center h3 {
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.row.text-center p {
+    color: #6c757d;
+}
+
+/* Footer */
+footer {
+    margin-top: 50px;
+}
+/* Tournaments Section Enhancements */
+#tournamentsSection h2 {
+    margin-bottom: 30px;
+  }
+  
+  .card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card .btn {
+    margin-right: 5px;
+  }
+  
+  #tournamentAdminControls {
+    margin-bottom: 20px;
+  }
+  
+  .badge {
+    font-size: 14px;
+  }
+  
+  #tournamentsLoading {
+    text-align: center;
+    margin-top: 20px;
+  }
