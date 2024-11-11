@@ -13,7 +13,6 @@ exports.getAllTournaments = async (req, res) => {
   }
 };
 
-// Get tournament details including participants
 exports.getTournamentDetails = async (req, res) => {
   try {
     const tournamentId = req.params.id;
@@ -22,17 +21,22 @@ exports.getTournamentDetails = async (req, res) => {
       return res.status(404).json({ message: 'Tournament not found' });
     }
 
+    // Filter out registrations with null users
     const registrations = await TournamentRegistration.find({ tournament: tournamentId }).populate('user', 'username');
+    const participants = registrations
+      .filter(reg => reg.user) // Ensure user is not null
+      .map(reg => reg.user.username);
 
     res.json({
       tournament,
-      participants: registrations.map(reg => reg.user.username),
+      participants,
     });
   } catch (err) {
     console.error('Error fetching tournament details:', err);
     res.status(500).json({ message: 'Error fetching tournament details' });
   }
 };
+
 
 // Register user for a tournament
 exports.registerForTournament = async (req, res) => {
