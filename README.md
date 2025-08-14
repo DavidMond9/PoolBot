@@ -16,4 +16,3 @@ Owners - David Mond, Ryan Cooke
 Collaborators - Arnav Ganguly, Nikhil Vasudeva
 
 _~for Delta Sigma Phi_
-(PROJECT IN PROGRESS)
