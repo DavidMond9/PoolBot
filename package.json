@@ -24,6 +24,7 @@
     "express-ejs-layouts": "^2.5.1",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.10.0",
+<<<<<<< HEAD
     "mongoose": "^8.7.3"
   },
   "devDependencies": {
@@ -31,5 +32,9 @@
     "nodemon": "^3.0.2",
     "eslint": "^8.55.0",
     "supertest": "^6.3.3"
+=======
+    "mongoose": "^8.7.3",
+    "socket.io": "^4.8.1"
+>>>>>>> 97e266d011090bcc31bf87b6887b0effb11048b6
   }
 }

@@ -25,6 +25,7 @@ test/
 └── integration/     # Integration tests
 ```
 
+<<<<<<< HEAD
 ## ✨ Features
 
 - **Queue Management**: Allows users to join a pool queue and remove themselves once their game is complete
@@ -157,3 +158,6 @@ This project is licensed under the ISC License.
 ---
 
 *This project is actively maintained and continuously improved.*
+=======
+_~for Delta Sigma Phi_
+>>>>>>> 97e266d011090bcc31bf87b6887b0effb11048b6
