@@ -13,71 +13,7 @@
     />
 
     <!-- Custom CSS -->
-    <style>
-        body {
-            padding-top: 56px; /* Space for the navbar */
-            background-color: #f0f2f5;
-        }
-
-        .container {
-            max-width: 600px;
-            margin-top: 20px;
-        }
-
-        .admin-controls {
-            margin-top: 30px;
-            display: none;
-        }
-
-        #errorMessage {
-            display: none;
-        }
-
-        /* Custom styles for forms */
-        .form-container {
-            margin-top: 30px;
-        }
-
-        .nav-link {
-            cursor: pointer;
-        }
-
-        /* Autocomplete styles */
-        .autocomplete-items {
-          position: relative;
-          border: 1px solid #d4d4d4;
-          border-bottom: none;
-          border-top: none;
-          z-index: 99;
-          /* position the autocomplete items to be the same width as the container: */
-          top: 100%;
-          left: 0;
-          right: 0;
-        }
-
-        .autocomplete-items div {
-          padding: 10px;
-          cursor: pointer;
-          background-color: #fff; 
-          border-bottom: 1px solid #d4d4d4; 
-        }
-
-        .autocomplete-items div:hover {
-          /* when hovering an item: */
-          background-color: #e9e9e9; 
-        }
-
-        .autocomplete-active {
-          /* when navigating through the items using the arrow keys: */
-          background-color: DodgerBlue !important; 
-          color: #ffffff; 
-        }
-
-        /* Highlight top two players */
-        .on-table {
-            background-color: #d4edda !important;
-        }
-    </style>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -792,5 +728,12 @@
             }
         }
     </script>
+    
+    <!-- JavaScript Files -->
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/queue.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
